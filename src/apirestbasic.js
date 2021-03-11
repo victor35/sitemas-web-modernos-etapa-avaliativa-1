@@ -1,13 +1,13 @@
 const express = require('express');
-// const mongoose = require('mongoose');
-// const alunoController = require('./controllers/aluno.controller')
+const mongoose = require('mongoose');
+const produtoController = require('./controllers/produto.controller')
 const app = express();
 
 
-// mongoose.connect("mongodb+srv://testDWM:1234@cluster0.c5rw2.mongodb.net/testDWM?retryWrites=true&w=majority",{
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// });
+mongoose.connect("mongodb+srv://testDWM:1234@cluster0.c5rw2.mongodb.net/testDWM?retryWrites=true&w=majority",{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 
 app.get('/', function(req,res){
@@ -17,11 +17,21 @@ app.get('/', function(req,res){
     })
 });
 
-app.get('/produtos', function(req,res){
 
-    res.json({mouse: req.query.nome});
+// rotas produtos
 
-});
+app.get('/produtos', produtoController.show);
+
+app.get('/produtos/:id', produtoController.index);
+
+app.delete('/produtos/:id', produtoController.destroyer);
+
+app.put('/produtos/:id', produtoController.update);
+
+app.use(express.json())
+app.post('/produtos',produtoController.store);
+
+//rotas usuarios
 
 app.get('/usuarios', function(req,res){
 
@@ -29,11 +39,6 @@ app.get('/usuarios', function(req,res){
 
 });
 
-app.delete('/produtos/:id', function(req,res){
-
-    res.json({id: req.params.id});
-
-});
 
 app.delete('/usuarios/:id', function(req,res){
 
@@ -53,10 +58,6 @@ app.put('/usuarios/:email', function(req,res){
 
 });
 
-app.use(express.json())
-app.post('/produtos',function(req,res){
-    res.json(req.body)
-});
 
 app.post('/usuarios',function(req,res){
     res.json(req.body)
