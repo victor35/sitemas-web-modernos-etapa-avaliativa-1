@@ -24,9 +24,8 @@ module.exports = {
     },
 
     async update(req, res) {
-        console.log(req.params.id)
-        const ObjectId = mongoose.Types.ObjectId;
-        const produto = await Produto.findByIdAndUpdate({_id:req.params.id}, req.body)
+        console.log(req.body)
+        const produto = await Produto.findByIdAndUpdate({_id:req.params.id}, req.body,{new:true})
 
         return res.json(produto)
     },

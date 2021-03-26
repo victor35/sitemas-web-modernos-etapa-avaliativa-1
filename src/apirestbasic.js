@@ -3,12 +3,15 @@ const mongoose = require('mongoose');
 const produtoController = require('./controllers/produto.controller')
 const app = express();
 
+const cors = require('cors');
 
 mongoose.connect("mongodb+srv://testDWM:1234@cluster0.c5rw2.mongodb.net/testDWM?retryWrites=true&w=majority",{
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
+app.use(cors());
+app.use(express.json())
 
 app.get('/', function(req,res){
     res.json({
@@ -28,7 +31,7 @@ app.delete('/produtos/:id', produtoController.destroyer);
 
 app.put('/produtos/:id', produtoController.update);
 
-app.use(express.json())
+
 app.post('/produtos',produtoController.store);
 
 //rotas usuarios
